@@ -1,0 +1,55 @@
+# Udacity_Android_Studio
+
+/* Trying to get Android studio to work with the Udacity course in Java/Android programming.
+It said here
+https://classroom.udacity.com/courses/ud837/lessons/4034888704/concepts/5b798321-219a-4910-9be1-7fcac1e5b8dc#
+that I would need to replace the default ConstraintLayout code with RelativeLayout code to follow along in the projects
+*/
+
+
+So,
+Here's more information, in case it can help those willing to help me.  
+
+CURRENT PROBLEM
+This is the more persistent problem (in that, it registered before I changed the gradle version, as described below):
+
+Here's the attribute value that android studio says it cannot resolve:
+for android:paddingBottom =
+'@dimen/activity_vertical_margin'
+
+it also cannot resolve those for paddingTop, right, and left, which have comparable values
+
+HERES AN OLD PROBLEM THAT I SEEM TO HAVE FOUND THE SOLUTION FOR
+
+Here's the error I get, which popped  up after I reverted the gradle version to 2.2.1 and android plugin  version to 1.0.1
+as recommended here: https://discussions.udacity.com/t/should-you-install-the-latest-android-studio-or-wait/227195/8
+
+Error:(29, 0) Could not find method testCompile() for arguments [junit:junit:4.12] on project ':app'.
+<a href="openFile:Q:\Users\aaron\AndroidStudioProjects\HappyBirthday\app\build.gradle">Open File</a>
+I'm about to copy build.gradle (module:app) and build.gradle(project:happybirthday
+
+here's where I found  the solution (which is commented somewhere when I uploaded the updated build.gradle file, though being new to github, not sure if it will be visible at a glance)
+https://discussions.udacity.com/t/gradle-tasks-build-failed/211323/14
+
+And here is what I deleted from that file and replaced with the dependencies listed at the bottom of that forum
+dependencies {
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "com.android.support:support-core-utils:25.1.0"
+
+}
+
+I  had read somewhere that simply deleting 'testCompile 'junit:junit:4.12' also solved the problem.
+Wondering whether there will be any consequences from the alterations.
+
+Additionally, I added this repository
+repositories {
+    maven { url 'http://repo1.maven.org/maven2' }
+}
+to build.gradle
